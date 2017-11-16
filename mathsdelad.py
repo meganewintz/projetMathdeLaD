@@ -139,15 +139,15 @@ def main():
 
 	mentionCourante = liste_appreciations[iterateur_mention_courante] #Correspond à la mention minimale demandée pour qu un projet puisse etre attribué à un eleve
 
-	#Boucle sur les projets
+	#Boucle sur les projets (de 0 à 17 soit 18 projets)
 	for k in range(nbre_projets):
 
-		print "on s'interesse au ", k + 1, "eme projet\n"
+		print "on s'interesse au ", k, "eme projet\n"
 
-		#On crée la liste des eleves interessés par le projet k + 1, ayant au moins mis la mention mentionCourante au projet considéré
-		listeInteresses = creerListeEleveInteresses(liste_eleves_restants, k + 1, mentionCourante)
+		#On crée la liste des eleves interessés par le projet k, ayant au moins mis la mention mentionCourante au projet considéré
+		listeInteresses = creerListeEleveInteresses(liste_eleves_restants, k, mentionCourante)
 
-		print "la liste des eleves int est ", listeInteresses, "\n"
+		print "la liste des eleves intéressés est \n", listeInteresses, "\n"
 
 		binomesElevesTemporaires = [] #liste des binomes que l'on peut creer à ce moment de l'algo pour le projet considéré
 
@@ -169,4 +169,4 @@ def main():
 
 		print "-----------------------------------\n"
 
-main()
+# main()
