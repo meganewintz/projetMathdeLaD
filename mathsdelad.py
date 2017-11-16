@@ -1,6 +1,7 @@
 # -*- coding: ISO-8859-1 -*-
 
 import random;
+import numpy as np;
 
 #Constantes de l'algo
 nbre_eleves = 10
@@ -12,8 +13,8 @@ print "Nbre de binomes : %i  \nNbre de trinomes : %i\n" % (nbre_binomes, nbre_tr
 liste_eleves_restants = [i for i in range(nbre_eleves)]
 liste_appreciations = ["TB", "B", "AB", "P", "I", "AR"]
 
-matrice_pref = [[random.choice(liste_appreciations) for j in range(nbre_eleves)] for i in range(nbre_eleves)]
-matrice_proj = [[random.choice(liste_appreciations) for p in range(nbre_projets)] for i in range(nbre_eleves)]
+matrice_pref = np.array([[random.choice(liste_appreciations) for j in range(nbre_eleves)] for i in range(nbre_eleves)])
+matrice_proj = np.array([[random.choice(liste_appreciations) for p in range(nbre_projets)] for i in range(nbre_eleves)])
 print "Tableau des appreciations élèves :\n", matrice_pref, "\n"
 print "Tableau des appreciations projets :\n", matrice_proj, "\n"
 
@@ -40,39 +41,38 @@ def elevesAcceptesEntreEux(i, j, m):
 	# données : i = i ème élève, j = j ème élève, m = mention minimale qu'il faut avoir entre les deux élèves
 	# résultat : booléen; vrai si les élèves se sont mis mutuellement au moins la mention m, faux sinon
 
-	resultat =False
-
-	mentions_accept = creerListeDesMentionsAcceptables(m)
-
-	if ((matrice_pref[i-1][j-1] in mentions_accept) and (matrice_pref[j-1][i-1] in mentions_accept)):
-
-		resultat = True
-
-	return resultat
-
-
-def elevesAcceptentMemeProjet(i, j, p, m):
-	# données : i = i ème élève, j = j ème élève, p = numéro du projet auquel on s'intéresse,
-	# m = mention minimale qu'il faut avoir de la part de chacun des élèves pour le projet p
-	# résultat : booléen; vrai si les deux élèves ont au moins mis la mention m au projet p
 	resultat = False
-
 	mentions_accept = creerListeDesMentionsAcceptables(m)
 
-	if ((matrice_proj[i-1][p-1] in mentions_accept) and (matrice_proj[j-1][p-1] in mentions_accept)):
+	if ((matrice_pref[i][j] in mentions_accept) and (matrice_pref[j][i] in mentions_accept)):
 
 		resultat = True
 
 	return resultat
+
+
+# def elevesAcceptentMemeProjet(i, j, p, m):
+# 	# données : i = i ème élève, j = j ème élève, p = numéro du projet auquel on s'intéresse,
+# 	# m = mention minimale qu'il faut avoir de la part de chacun des élèves pour le projet p
+# 	# résultat : booléen; vrai si les deux élèves ont au moins mis la mention m au projet p
+#
+# 	resultat = False
+# 	mentions_accept = creerListeDesMentionsAcceptables(m)
+#
+# 	if ((matrice_proj[i][p] in mentions_accept) and (matrice_proj[j][p] in mentions_accept)):
+#
+# 		resultat = True
+#
+# 	return resultat
 
 def eleveAccepteProjet(i, p, m):
 	# données : i = i ème élève, p = numero du projet, m = mention mini que i doit avoir donnée pour p
 	# résultat : booléen; vrai si i a au moins mis la mention m à p, faux sinon
-	resultat = False
 
+	resultat = False
 	mentions_accept = creerListeDesMentionsAcceptables(m)
 
-	if (matrice_proj[i-1][p-1] in mentions_accept):
+	if (matrice_proj[i][p] in mentions_accept):
 
 		resultat = True
 
@@ -94,7 +94,7 @@ def creerListeEleveInteresses(eleveRest, p, m):
 
 '''
 
-# TESTS 
+# TESTS
 print "mentions accept : ", creerListeDesMentionsAcceptables("AB")
 "\n"
 print "e2 a mis : ", matrice_pref[1][2], "a e3 \n"
@@ -137,8 +137,7 @@ def main():
 
 	#while iterateur_mention_courante < 6 and liste_eleves_restants != [] :
 
-	mentionCourante = liste_appreciations[iterateur_mention_courante] #Correspond à la mention minimale demandée pour qu un projet puisse etre attribué à un eleve  
-		
+	mentionCourante = liste_appreciations[iterateur_mention_courante] #Correspond à la mention minimale demandée pour qu un projet puisse etre attribué à un eleve
 
 	#Boucle sur les projets
 	for k in range(nbre_projets):
@@ -146,7 +145,7 @@ def main():
 		print "on s'interesse au ", k + 1, "eme projet\n"
 
 		#On crée la liste des eleves interessés par le projet k + 1, ayant au moins mis la mention mentionCourante au projet considéré
-		listeInteresses = creerListeEleveInteresses(liste_eleves_restants, k + 1, mentionCourante) 
+		listeInteresses = creerListeEleveInteresses(liste_eleves_restants, k + 1, mentionCourante)
 
 		print "la liste des eleves int est ", listeInteresses, "\n"
 
@@ -156,10 +155,10 @@ def main():
 		if listeInteresses > 1:
 
 			#On boucle sur les eleves de cette liste (à noter : on s'arrete à len-2 car le dernier eleve aura deja ete comparé avec tous les autres)
-			for i in range(len(listeInteresses) - 2) : 
+			for i in range(len(listeInteresses) - 2) :
 
 				#On le compare aux autres eleves de cette liste et on ajoute les binomes d'eleves qui s apprecient
-				for j in range(i+1, len(listeInteresses)- 1) : 
+				for j in range(i+1, len(listeInteresses)- 1) :
 
 					if elevesAcceptesEntreEux(listeInteresses[i] -1 , listeInteresses[j] - 1, liste_appreciations[iterateur_mention_courante + 1]):
 						#On choisit ici iterateur mention courante + 1 car on veut privilegier de bonnes attributions de projets a de bonnes attributions de groupes d eleves
@@ -167,24 +166,7 @@ def main():
 						binomesElevesTemporaires.append([listeInteresses[i] -1, listeInteresses[j] - 1])
 
 						print "bin temp = ", binomesElevesTemporaires, "\n"
-		
-		print "-----------------------------------\n"	
 
+		print "-----------------------------------\n"
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+main()
