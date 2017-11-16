@@ -18,33 +18,45 @@ liste_appreciations_entre_eleves = [[random.choice(liste_appreciations_dispo) fo
 print "Tableau des appreciations :\n", liste_appreciations_entre_eleves, "\n"
 liste_groupes = []
 ite_appreciation_courante = 0;
-while ite_appreciation_courante < len(liste_appreciations_dispo) and ((not liste_eleves_restants) == False): #vérifie que la liste n'est pas vide
+
 # on s'arrête lorqu'on a parcouru toutes les mentions ou qu'il n'y a plus d'élève à placer.
+while ite_appreciation_courante < len(liste_appreciations_dispo) and ((not liste_eleves_restants) == False): #vérifie que la liste n'est pas vide
+
     appreciation_courante = liste_appreciations_dispo[ite_appreciation_courante]
     print appreciation_courante
-    for i in range(nbre_eleves):
+
     # parcours du tableau des appréciations avec appréciation_courante
-        if i in liste_eleves_restants:
+    for i in range(nbre_eleves):
+
         # on regarde les apprec de l'élèves i que s'il n'est pas encore dans un groupe
+        if i in liste_eleves_restants:
+
             print "-- new eleve %i\n" % i
             j = i+1
-            while j < nbre_eleves and (i in liste_eleves_restants):
+
             # on s'arrête lorsqu'on a parcouru toutes les apprec de i ou lorsque i a été placé dans un groupe.
+            while j < nbre_eleves and (i in liste_eleves_restants):
+
                 apprec_ij = liste_appreciations_entre_eleves[i][j]
                 print "new compa %i\n" % j
-                if j in liste_eleves_restants:
+
                 # on regarde les apprec de l'élèves i sur j que si j n'est pas encore dans un groupe
-                    if liste_appreciations_dispo.index(apprec_ij) <= ite_appreciation_courante:
+                if j in liste_eleves_restants:
+
                     # si l'aprréciation de l'élève i sur j est aussi bien ou mieux que l'appréciation courante
+                    if liste_appreciations_dispo.index(apprec_ij) <= ite_appreciation_courante:
                         apprec_ji = liste_appreciations_entre_eleves[j][i]
-                        if liste_appreciations_dispo.index(apprec_ji) <= ite_appreciation_courante:
+
                         # si l'aprréciation de l'élève j sur i est aussi bien ou mieux que l'appréciation courante
+                        if liste_appreciations_dispo.index(apprec_ji) <= ite_appreciation_courante:
                             liste_groupes.append([i,j])
                             print "élève à supprimer : %i, %i" % (i,j)
                             liste_eleves_restants.remove(i)
                             liste_eleves_restants.remove(j)
+
                 j += 1
     ite_appreciation_courante += 1
+
 print "Les groupes :\n", liste_groupes
 print "élèves restants:\n", liste_eleves_restants
 print (2 in liste_groupes)

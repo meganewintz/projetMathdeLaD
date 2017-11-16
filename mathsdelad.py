@@ -135,38 +135,39 @@ def main():
 	iterateur_mention_courante = 0 # va donner l'indice de la mention courante dans le tableau des appreciations
 	listeElevesPlaces = []
 
-	#while iterateur_mention_courante < 6 and liste_eleves_restants != [] :
+	while iterateur_mention_courante < 5 and liste_eleves_restants != [] :
 
-	mentionCourante = liste_appreciations[iterateur_mention_courante] #Correspond à la mention minimale demandée pour qu un projet puisse etre attribué à un eleve
+		mentionCourante = liste_appreciations[iterateur_mention_courante] #Correspond à la mention minimale demandée pour qu un projet puisse etre attribué à un eleve
 
-	#Boucle sur les projets (de 0 à 17 soit 18 projets)
-	for k in range(nbre_projets):
+		#Boucle sur les projets (de 0 à 17 soit 18 projets)
+		for k in range(nbre_projets):
 
-		print "on s'interesse au ", k, "eme projet\n"
+			print "on s'interesse au ", k, "eme projet\n"
 
-		#On crée la liste des eleves interessés par le projet k, ayant au moins mis la mention mentionCourante au projet considéré
-		listeInteresses = creerListeEleveInteresses(liste_eleves_restants, k, mentionCourante)
+			#On crée la liste des eleves interessés par le projet k, ayant au moins mis la mention mentionCourante au projet considéré
+			listeInteresses = creerListeEleveInteresses(liste_eleves_restants, k, mentionCourante)
 
-		print "la liste des eleves intéressés est \n", listeInteresses, "\n"
+			print "la liste des eleves intéressés est \n", listeInteresses, "\n"
 
-		binomesElevesTemporaires = [] #liste des binomes que l'on peut creer à ce moment de l'algo pour le projet considéré
+			binomesElevesTemporaires = [] #liste des binomes que l'on peut creer à ce moment de l'algo pour le projet considéré
 
-		#S'il y a au moins deux eleves dans cette liste, on pourra les comparer (pour eventuellement former un binome)
-		if listeInteresses > 1:
+			#S'il y a au moins deux eleves dans cette liste, on pourra les comparer (pour eventuellement former un binome)
+			if listeInteresses > 1:
 
-			#On boucle sur les eleves de cette liste (à noter : on s'arrete à len-2 car le dernier eleve aura deja ete comparé avec tous les autres)
-			for i in range(len(listeInteresses) - 2) :
+				#On boucle sur les eleves de cette liste (à noter : on s'arrete à len-2 car le dernier eleve aura deja ete comparé avec tous les autres)
+				for i in range(len(listeInteresses) - 2) :
 
-				#On le compare aux autres eleves de cette liste et on ajoute les binomes d'eleves qui s apprecient
-				for j in range(i+1, len(listeInteresses)- 1) :
+					#On le compare aux autres eleves de cette liste et on ajoute les binomes d'eleves qui s apprecient
+					for j in range(i+1, len(listeInteresses) - 1) :
 
-					if elevesAcceptesEntreEux(listeInteresses[i] -1 , listeInteresses[j] - 1, liste_appreciations[iterateur_mention_courante + 1]):
-						#On choisit ici iterateur mention courante + 1 car on veut privilegier de bonnes attributions de projets a de bonnes attributions de groupes d eleves
+						if elevesAcceptesEntreEux(listeInteresses[i], listeInteresses[j], liste_appreciations[iterateur_mention_courante + 1]):
+							#On choisit ici iterateur mention courante + 1 car on veut privilegier de bonnes attributions de projets a de bonnes attributions de groupes d eleves
 
-						binomesElevesTemporaires.append([listeInteresses[i] -1, listeInteresses[j] - 1])
+							binomesElevesTemporaires.append([listeInteresses[i], listeInteresses[j]])
 
 						print "bin temp = ", binomesElevesTemporaires, "\n"
 
-		print "-----------------------------------\n"
+			print "-----------------------------------\n"
+		iterateur_mention_courante += 1
 
-# main()
+main()
