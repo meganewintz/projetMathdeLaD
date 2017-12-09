@@ -141,6 +141,8 @@ def creerBinome(listeEleves, m):
 	resultat = []
 	binomeTrouve = False
 
+	print "Construction des binomes : \n"
+
 	i = 0;
 	while listeLocaleEleves and not binomeTrouve:
 	# on boucle tant qu'il reste des eleves
@@ -246,6 +248,8 @@ def creerTrinome(listeEleves, m):
 	resultat = []
 	trinomeTrouve = False
 
+	print "Construction des trinomes : \n"
+
 	i = 0;
 	while listeLocaleEleves and not trinomeTrouve:
 	# on boucle tant qu'il reste des trinome e former
@@ -254,7 +258,6 @@ def creerTrinome(listeEleves, m):
 		j = i + 1;
 		listeBinomeAvecI = []
 		for j in range(i+1, len(listeLocaleEleves)) :
-			print "j : ", j
 		# on construit tous les binomes possibles avec l'eleve i.
 
 			if elevesAcceptesEntreEux(listeLocaleEleves[i], listeLocaleEleves[j], m):
@@ -351,7 +354,7 @@ def main():
 					if trinomeForme :
 
 						# on les ajoute a la liste des groupes
-						listeGroupes.append	(trinomeForme)
+						listeGroupes.append([listeProjetsRestants[k], trinomeForme, mentionCourante])
 
 						# on decremente le nombre de trinome
 						nbre_trinomes -= 1
@@ -376,7 +379,7 @@ def main():
 					if binomeForme :
 
 						# on les ajoute a la liste des groupes
-						listeGroupes.append(binomeForme)
+						listeGroupes.append([listeProjetsRestants[k], binomeForme, mentionCourante])
 
 						# on  eleve le projet que l'on vient de traiter
 						listeProjetsRestants.remove(listeProjetsRestants[k])
@@ -401,9 +404,6 @@ def main():
 				print "binome restants à former : ", nbre_binomes
 
 				print "\n--------------------------------------------\n"
-
-				print "k :", k
-				print "taille projets : ", len(listeProjetsRestants)
 		iterateur_mention_courante += 1
 
 main()
