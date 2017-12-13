@@ -14,12 +14,16 @@ liste_eleves_restants = [i for i in range(nbre_eleves)]
 liste_appreciations = ["TB", "B", "AB", "P", "I", "AR"]
 
 matrice_pref = np.array([[random.choice(liste_appreciations) for j in range(nbre_eleves)] for i in range(nbre_eleves)])
-matrice_proj = np.array([[random.choice(liste_appreciations) for p in range(nbre_projets)] for i in range(nbre_eleves)])
+# matrice_proj = np.array([[random.choice(liste_appreciations) for p in range(nbre_projets)] for i in range(nbre_eleves)])
+matrice_proj = np.array([[liste_appreciations[0] for p in range(nbre_projets)] for i in range(nbre_eleves)])
+np.set_printoptions(threshold=nbre_eleves)
+
+
 print "Tableau des appreciations eleves :\n", matrice_pref, "\n"
 print "Tableau des appreciations projets :\n", matrice_proj, "\n"
 
 def creerListeDesMentionsAcceptables(m):
-	# permet de creer la liste de toutes les mentions superieures ou egales e m
+	# permet de creer la liste de toutes les mentions superieures ou egales a m
 
 	liste_mentions_acceptables = []
 	cpt = 0
@@ -93,55 +97,55 @@ def creerListeEleveInteresses(eleveRest, p, m):
 	return resultat
 
 
-def creerBinomes(listeEleves, m):
-	# donnees : listeEleves : notre liste d eleve e comparer; m : mention minimale.
-	# resultat : une liste de binomes, vide s'il n'y a pas de binomes possible.
-
-	# i : iterateur, l'eleve e partir duquel on construit la liste de ses binomes.
-	# j : iterateur qui parcourt la liste des eleves pour former un binome avec i.
-
-	listeLocaleEleves = listeEleves[:]
-	resultat = []
-
-	i = 0;
-	while listeLocaleEleves :
-	# on boucle tant qu'il reste des eleves
-
-		print "liste des eleves : ", listeLocaleEleves
-		j = i + 1;
-		binomeTrouve = False
-
-		while j < len(listeLocaleEleves) and not binomeTrouve  :
-		# parcours de la liste des eleves pour former binome
-			 print "on compare ", listeLocaleEleves[i], " avec ", listeLocaleEleves[j]
-			 if elevesAcceptesEntreEux(listeLocaleEleves[i], listeLocaleEleves[j], m):
-				 resultat.append([listeLocaleEleves[i], listeLocaleEleves[j]])
-				 print "un binome trouve : ", resultat
-				 listeLocaleEleves.remove(listeLocaleEleves[i])
-				 listeLocaleEleves.remove(listeLocaleEleves[j-1])
-				 binomeTrouve = True
-			 j += 1
-
-		if not binomeTrouve:
-			print "on suppr ", listeLocaleEleves[i]
-			listeLocaleEleves.remove(listeLocaleEleves[i])
-		print "\n"
-
-	print "binome formes : ", resultat
-	return resultat
+# def creerBinomes(listeEleves, m):
+# 	# donnees : listeEleves : notre liste d eleve e comparer; m : mention minimale.
+# 	# resultat : une liste de binomes, vide s'il n'y a pas de binomes possible.
+#
+# 	# i : iterateur, l'eleve e partir duquel on construit la liste de ses binomes.
+# 	# j : iterateur qui parcourt la liste des eleves pour former un binome avec i.
+#
+# 	listeLocaleEleves = listeEleves[:]
+# 	resultat = []
+#
+# 	i = 0;
+# 	while listeLocaleEleves :
+# 	# on boucle tant qu'il reste des eleves
+#
+# 		print "liste des eleves : ", listeLocaleEleves
+# 		j = i + 1;
+# 		binomeTrouve = False
+#
+# 		while j < len(listeLocaleEleves) and not binomeTrouve  :
+# 		# parcours de la liste des eleves pour former binome
+# 			 print "on compare ", listeLocaleEleves[i], " avec ", listeLocaleEleves[j]
+# 			 if elevesAcceptesEntreEux(listeLocaleEleves[i], listeLocaleEleves[j], m):
+# 				 resultat.append([listeLocaleEleves[i], listeLocaleEleves[j]])
+# 				 print "un binome trouve : ", resultat
+# 				 listeLocaleEleves.remove(listeLocaleEleves[i])
+# 				 listeLocaleEleves.remove(listeLocaleEleves[j-1])
+# 				 binomeTrouve = True
+# 			 j += 1
+#
+# 		if not binomeTrouve:
+# 			print "on suppr ", listeLocaleEleves[i]
+# 			listeLocaleEleves.remove(listeLocaleEleves[i])
+# 		print "\n"
+#
+# 	print "binome formes : ", resultat
+# 	return resultat
 
 def creerBinome(listeEleves, m):
-	# donnees : listeEleves : notre liste d eleve e comparer; m : mention minimale.
+	# donnees : listeEleves : notre liste d eleve a comparer; m : mention minimale.
 	# resultat : le 1er binome trouve, vide s'il n'y a pas de binomes possible.
 
-	# i : iterateur, l'eleve e partir duquel on construit la liste de ses binomes.
+	# i : iterateur, l'eleve a partir duquel on construit la liste de ses binomes.
 	# j : iterateur qui parcourt la liste des eleves pour former un binome avec i.
 
 	listeLocaleEleves = listeEleves[:]
 	resultat = []
 	binomeTrouve = False
 
-	print "Construction des binomes : \n"
+	print "On essaye de contruire un binome pour mention ", m, " : \n"
 
 	i = 0;
 	while listeLocaleEleves and not binomeTrouve:
@@ -152,7 +156,6 @@ def creerBinome(listeEleves, m):
 
 		while j < len(listeLocaleEleves) and not binomeTrouve  :
 		# parcours de la liste des eleves pour former binome
-			 print "on compare ", listeLocaleEleves[i], " avec ", listeLocaleEleves[j]
 			 if elevesAcceptesEntreEux(listeLocaleEleves[i], listeLocaleEleves[j], m):
 				 resultat = [listeLocaleEleves[i], listeLocaleEleves[j]]
 				 print "un binome trouve : ", resultat
@@ -162,7 +165,7 @@ def creerBinome(listeEleves, m):
 			 j += 1
 
 		if not binomeTrouve:
-			print "on suppr ", listeLocaleEleves[i]
+			print "pas de binome possible avec ", listeLocaleEleves[i], ", on le suppr "
 			listeLocaleEleves.remove(listeLocaleEleves[i])
 		print "\n"
 
@@ -170,75 +173,75 @@ def creerBinome(listeEleves, m):
 	return resultat
 
 
-def creerTrinomes(listeEleves, m, nb_trinomes):
-	# donnees : listeEleves : notre liste d eleve e comparer; m : mention minimale; nb_trinomes : le nombre de trinome que l'on peut former.
-	# resultat : une liste de trinome, vide s'il n'y a pas de trinome possible.
-
-	# i : iterateur, l'eleve e partir duquel on construit la liste de ses binomes.
-	# j : iterateur qui parcourt la liste des eleves pour former un binome avec i.
-	# k : iterateur qui parcourt les binomes trouves de i.
-	# l : iterateur qui parcourt la liste des eleves pour former un trinome avec i et k.
-	# listeBinomeAvecI : la liste des eleves pouvant etre en binome avec i.
-
-	listeLocaleEleves = listeEleves[:]
-	resultat = []
-
-	i = 0;
-	while listeLocaleEleves and nb_trinomes > 0 :
-	# on boucle tant qu'il reste des trinome e former
-
-		print "liste des eleves : ", listeLocaleEleves
-		j = i + 1;
-		listeBinomeAvecI = []
-		for j in range(i+1, len(listeLocaleEleves)) :
-		# on construit tous les binomes possibles avec l'eleve i.
-
-			if elevesAcceptesEntreEux(listeLocaleEleves[i], listeLocaleEleves[j], m):
-				listeBinomeAvecI.append(listeLocaleEleves[j])
-
-		print "liste des binomes de ", listeLocaleEleves[i], " : ", listeBinomeAvecI
-		trinomeTrouve = False
-
-		if listeBinomeAvecI and len(listeBinomeAvecI) > 1:
-		# si on a trouve des binomes avec i, on essaye de construire des trinomes.
-		# le 3eme eleve potentiel fera forcement parti des binomes possibles avec i.
-			k = 0
-			trinomeTrouve = False
-			while k < len(listeBinomeAvecI) and not trinomeTrouve  :
-			# parcours de chaque binome de i.
-
-				l = k + 1
-				trinomeTrouve = False
-
-				while l < len(listeBinomeAvecI) and not trinomeTrouve  :
-				# parcours de la liste des eleves pour former trinome.
-
-					 print "on compare ", listeBinomeAvecI[k], " avec ", listeBinomeAvecI[l]
-					 if elevesAcceptesEntreEux(listeBinomeAvecI[k], listeBinomeAvecI[l], m):
-
-						 resultat.append([listeLocaleEleves[i], listeBinomeAvecI[k], listeBinomeAvecI[l]])
-						 print "un trinome trouve : ", resultat
-						 listeLocaleEleves.remove(listeLocaleEleves[i])
-						 listeLocaleEleves.remove(listeBinomeAvecI[k])
-						 listeLocaleEleves.remove(listeBinomeAvecI[l])
-						 trinomeTrouve = True
-						 nb_trinomes -= 1
-					 l += 1
-				k += 1
-
-		if not trinomeTrouve:
-			print "on suppr"
-			listeLocaleEleves.remove(listeLocaleEleves[i])
-		print "\n"
-
-	print "trinomes formes : ", resultat
-	return resultat
+# def creerTrinomes(listeEleves, m, nb_trinomes):
+# 	# donnees : listeEleves : notre liste d eleve e comparer; m : mention minimale; nb_trinomes : le nombre de trinome que l'on peut former.
+# 	# resultat : une liste de trinome, vide s'il n'y a pas de trinome possible.
+#
+# 	# i : iterateur, l'eleve e partir duquel on construit la liste de ses binomes.
+# 	# j : iterateur qui parcourt la liste des eleves pour former un binome avec i.
+# 	# k : iterateur qui parcourt les binomes trouves de i.
+# 	# l : iterateur qui parcourt la liste des eleves pour former un trinome avec i et k.
+# 	# listeBinomeAvecI : la liste des eleves pouvant etre en binome avec i.
+#
+# 	listeLocaleEleves = listeEleves[:]
+# 	resultat = []
+#
+# 	i = 0;
+# 	while listeLocaleEleves and nb_trinomes > 0 :
+# 	# on boucle tant qu'il reste des trinome e former
+#
+# 		print "liste des eleves : ", listeLocaleEleves
+# 		j = i + 1;
+# 		listeBinomeAvecI = []
+# 		for j in range(i+1, len(listeLocaleEleves)) :
+# 		# on construit tous les binomes possibles avec l'eleve i.
+#
+# 			if elevesAcceptesEntreEux(listeLocaleEleves[i], listeLocaleEleves[j], m):
+# 				listeBinomeAvecI.append(listeLocaleEleves[j])
+#
+# 		print "liste des binomes de ", listeLocaleEleves[i], " : ", listeBinomeAvecI
+# 		trinomeTrouve = False
+#
+# 		if listeBinomeAvecI and len(listeBinomeAvecI) > 1:
+# 		# si on a trouve des binomes avec i, on essaye de construire des trinomes.
+# 		# le 3eme eleve potentiel fera forcement parti des binomes possibles avec i.
+# 			k = 0
+# 			trinomeTrouve = False
+# 			while k < len(listeBinomeAvecI) and not trinomeTrouve  :
+# 			# parcours de chaque binome de i.
+#
+# 				l = k + 1
+# 				trinomeTrouve = False
+#
+# 				while l < len(listeBinomeAvecI) and not trinomeTrouve  :
+# 				# parcours de la liste des eleves pour former trinome.
+#
+# 					 print "on compare ", listeBinomeAvecI[k], " avec ", listeBinomeAvecI[l]
+# 					 if elevesAcceptesEntreEux(listeBinomeAvecI[k], listeBinomeAvecI[l], m):
+#
+# 						 resultat.append([listeLocaleEleves[i], listeBinomeAvecI[k], listeBinomeAvecI[l]])
+# 						 print "un trinome trouve : ", resultat
+# 						 listeLocaleEleves.remove(listeLocaleEleves[i])
+# 						 listeLocaleEleves.remove(listeBinomeAvecI[k])
+# 						 listeLocaleEleves.remove(listeBinomeAvecI[l])
+# 						 trinomeTrouve = True
+# 						 nb_trinomes -= 1
+# 					 l += 1
+# 				k += 1
+#
+# 		if not trinomeTrouve:
+# 			print "on suppr"
+# 			listeLocaleEleves.remove(listeLocaleEleves[i])
+# 		print "\n"
+#
+# 	print "trinomes formes : ", resultat
+# 	return resultat
 
 def creerTrinome(listeEleves, m):
 	# donnees : listeEleves : notre liste d eleve e comparer; m : mention minimale;
 	# resultat : le premier trinome trouve, vide s'il n'y a pas de trinome possible.
 
-	# i : iterateur, l'eleve e partir duquel on construit la liste de ses binomes.
+	# i : iterateur, l'eleve a partir duquel on construit la liste de ses binomes.
 	# j : iterateur qui parcourt la liste des eleves pour former un binome avec i.
 	# k : iterateur qui parcourt les binomes trouves de i.
 	# l : iterateur qui parcourt la liste des eleves pour former un trinome avec i et k.
@@ -248,11 +251,11 @@ def creerTrinome(listeEleves, m):
 	resultat = []
 	trinomeTrouve = False
 
-	print "Construction des trinomes : \n"
+	print "\nOn essaye de construire un trinome : \n"
 
 	i = 0;
 	while listeLocaleEleves and not trinomeTrouve:
-	# on boucle tant qu'il reste des trinome e former
+	# on boucle tant qu'il reste des trinome a former
 
 		print "liste des eleves : ", listeLocaleEleves
 		j = i + 1;
@@ -263,7 +266,7 @@ def creerTrinome(listeEleves, m):
 			if elevesAcceptesEntreEux(listeLocaleEleves[i], listeLocaleEleves[j], m):
 				listeBinomeAvecI.append(listeLocaleEleves[j])
 
-		print "liste des binomes de ", listeLocaleEleves[i], " : ", listeBinomeAvecI
+		print "liste des binomes potentiels de ", listeLocaleEleves[i], " : ", listeBinomeAvecI
 		trinomeTrouve = False
 
 		if listeBinomeAvecI and len(listeBinomeAvecI) > 1:
@@ -279,7 +282,7 @@ def creerTrinome(listeEleves, m):
 				while l < len(listeBinomeAvecI) and not trinomeTrouve  :
 				# parcours de la liste des eleves pour former trinome.
 
-					 print "on compare ", listeBinomeAvecI[k], " avec ", listeBinomeAvecI[l]
+					 print "on regarde si ", listeBinomeAvecI[k], " peut être avec ", listeBinomeAvecI[l]
 					 if elevesAcceptesEntreEux(listeBinomeAvecI[k], listeBinomeAvecI[l], m):
 
 						 resultat = [listeLocaleEleves[i], listeBinomeAvecI[k], listeBinomeAvecI[l]]
@@ -292,7 +295,7 @@ def creerTrinome(listeEleves, m):
 				k += 1
 
 		if not trinomeTrouve:
-			print "on suppr"
+			print "pas de trinome possible avec ", listeLocaleEleves[i], ", on le suppr "
 			listeLocaleEleves.remove(listeLocaleEleves[i])
 		print "\n"
 
@@ -318,6 +321,7 @@ def main():
 	listeProjetsRestants = [i for i in range(nbre_projets)]
 
 	print "nombre de trinome à former : ", nbre_trinomes
+	print "nombre de binome à former : ", nbre_binomes
 	while iterateur_mention_courante < len(liste_appreciations) and liste_eleves_restants != [] :
 
 		# Correspond a la mention minimale demandee pour qu un projet puisse etre attribue a un eleve
@@ -328,71 +332,87 @@ def main():
 		print "\n--------------------------------------------\n"
 
 
-		#Boucle sur les projets dispo
+		# Boucle sur les projets dispos
 		k = 0
 		while k < len(listeProjetsRestants):
 				groupeTrouve = False
 
-				print "on s'interesse au ", listeProjetsRestants[k], "eme projet, avec mention", liste_appreciations[iterateur_mention_courante], "\n"
+				print "\n--------------------- PROJET",listeProjetsRestants[k], ", mention ", mentionCourante ,"-----------------------\n"
+
 				print "liste des eleves restants : ", liste_eleves_restants
-				print "liste des projets restants ", listeProjetsRestants
+				print "liste des projets restants : ", listeProjetsRestants
 
 				#On cree la liste des eleves interesses par le projet k, ayant au moins mis la mention mentionCourante au projet considere
 				listeInteresses = creerListeEleveInteresses(liste_eleves_restants, listeProjetsRestants[k], mentionCourante)
 
-				print "la liste des eleves interesses pour trinomes est \n", listeInteresses, "\n"
+				print "la liste des eleves interesses pour ce projet est : ", listeInteresses, "\n"
 
-				#S'il y a au moins deux eleves dans cette liste, on pourra les comparer (pour eventuellement former un binome)
-				if nbre_trinomes > 0 and len(listeInteresses) > 2 :
+				# Boucle sur les mentions de TB a mention courante.
+				# Pour chaque projet, avec sa liste d'élèves intéressés pour mention courante,
+				# on repart de la mention TB pour former les groupes.
+				iterateur_mention_courante_eleves = 0
+				while iterateur_mention_courante_eleves <= iterateur_mention_courante and not groupeTrouve :
+					mentionCouranteEleves = liste_appreciations[iterateur_mention_courante_eleves]
+					print "\nOn essaye de former un groupe avec la mention ", mentionCouranteEleves, "\n"
 
-					# on recupere les trinomes possibles
-					trinomeForme = creerTrinome(listeInteresses, liste_appreciations[iterateur_mention_courante])
+	# '''################# Construction trinome ################### '''
 
-					print "la liste restantes ", listeInteresses, "\n"
+					#S'il y a au moins 3 eleves dans cette liste, on essaye de former un trinome.
+					if nbre_trinomes > 0 and len(listeInteresses) > 2 :
 
-					# si on a trouve un trinome
-					if trinomeForme :
+						# on recupere le trinome formé (s'il existe)
+						trinomeForme = creerTrinome(listeInteresses, liste_appreciations[iterateur_mention_courante_eleves])
 
-						# on les ajoute a la liste des groupes
-						listeGroupes.append([listeProjetsRestants[k], trinomeForme, mentionCourante])
+						# si on a trouve un trinome
+						if trinomeForme :
 
-						# on decremente le nombre de trinome
-						nbre_trinomes -= 1
+							# on les ajoute a la liste des groupes
+							listeGroupes.append([listeProjetsRestants[k], trinomeForme, mentionCouranteEleves])
 
-						# on  eleve le projet que l'on vient de traiter
-						listeProjetsRestants.remove(listeProjetsRestants[k])
+							# on decremente le nombre de trinome
+							nbre_trinomes -= 1
 
-						# on les supprime de nos eleves restants et de la liste des eleves interesse
-						for eleve in trinomeForme:
-							liste_eleves_restants.remove(eleve)
-							listeInteresses.remove(eleve)
-						groupeTrouve = True
+							# on  eleve le projet que l'on vient de traiter
+							listeProjetsRestants.remove(listeProjetsRestants[k])
 
-				# s'il reste au moins 2 eleves interesse
-				if not groupeTrouve and nbre_binomes > 0 and len(listeInteresses) > 1 :
+							# on les supprime de nos eleves restants et de la liste des eleves interesse
+							for eleve in trinomeForme:
+								print "eleve a suppr : ", eleve
+								liste_eleves_restants.remove(eleve)
+								listeInteresses.remove(eleve)
+							groupeTrouve = True
 
-					print "la liste des eleves interesses pour binomes est \n", listeInteresses, "\n"
+		# '''################# Construction binome ################### '''
 
-					# on recupere les binomes possibles
-					binomeForme = creerBinome(listeInteresses, liste_appreciations[iterateur_mention_courante])
+					# s'il reste au moins 2 eleves interesse
+					if not groupeTrouve and nbre_binomes > 0 and len(listeInteresses) > 1 :
 
-					if binomeForme :
+						print "on essaye maintenant de former un binome pour la liste des élèves intéressés par ce projet : \n", listeInteresses, "\n"
 
-						# on les ajoute a la liste des groupes
-						listeGroupes.append([listeProjetsRestants[k], binomeForme, mentionCourante])
+						# on recupere les binomes possibles
+						binomeForme = creerBinome(listeInteresses, liste_appreciations[iterateur_mention_courante_eleves])
 
-						# on  eleve le projet que l'on vient de traiter
-						listeProjetsRestants.remove(listeProjetsRestants[k])
+						if binomeForme :
 
-						# on decremente le nombre de binome
-						nbre_binomes -= 1
+							# on les ajoute a la liste des groupes
+							listeGroupes.append([listeProjetsRestants[k], binomeForme, mentionCouranteEleves])
 
-						# on les supprime de nos eleves restants et de la liste des eleves interesse
-						for eleve in binomeForme:
-							print "eleve a suppr : ", eleve
-							liste_eleves_restants.remove(eleve)
-							listeInteresses.remove(eleve)
-						groupeTrouve = True
+							# on  eleve le projet que l'on vient de traiter
+							listeProjetsRestants.remove(listeProjetsRestants[k])
+
+							# on decremente le nombre de binome
+							nbre_binomes -= 1
+
+							# on les supprime de nos eleves restants et de la liste des eleves interesse
+							for eleve in binomeForme:
+								print "eleve a suppr : ", eleve
+								liste_eleves_restants.remove(eleve)
+								listeInteresses.remove(eleve)
+							groupeTrouve = True
+
+	# '''################# Fin construction binome ################### '''
+
+					iterateur_mention_courante_eleves += 1
 
 				# on incrémente k que si on n'a pas trouvé de groupe, car sinon on a supprimé le projet donc les indices se sont décallés.
 				if not groupeTrouve:
@@ -403,7 +423,6 @@ def main():
 				print "trinome restants à former : ", nbre_trinomes
 				print "binome restants à former : ", nbre_binomes
 
-				print "\n--------------------------------------------\n"
 		iterateur_mention_courante += 1
 
 main()
